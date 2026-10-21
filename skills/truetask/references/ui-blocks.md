@@ -15,7 +15,8 @@ The app validates every block before it draws anything, because an agent's outpu
 - An unknown `type` means the whole block is shown as its source.
 - An unknown field name is dropped without a word. A field whose value fails its check is dropped too, and if it was required the whole component goes.
 - Over a cap, the extra items are cut (the first 100 table rows, the first 8 stats) and the rest still draws.
-- Raw HTML, scripts, images and style never render. There is no field for them.
+- Raw HTML, scripts and style never render. There is no field for them.
+- A picture only ever comes from a file in the workspace, named by its id in an `image` block. No outside address loads.
 - A link survives only as one of Truetask's own chip links, `http(s)` or `mailto`.
 
 So an example that validates today can stop validating when the catalog changes.
@@ -40,6 +41,8 @@ Never invent a field because it would read well: if the catalog has no place for
 | Accordion panels | 20 |
 | Columns | 2 or 3 |
 | Actions | 4, at most one `primary` |
+| Badges, people, tasks | 20 |
+| Code | 4,000 characters |
 
 ## Status words
 
@@ -210,6 +213,77 @@ Do not wrap a single list in a tab.
 
 ```truetask-ui
 {"type": "columns", "columns": [{"title": "Before", "blocks": [{"type": "properties", "items": [{"label": "Cold start", "value": "2.4 s"}, {"label": "Bundle", "value": "1.1 MB"}]}]}, {"title": "After", "blocks": [{"type": "properties", "items": [{"label": "Cold start", "value": "0.9 s"}, {"label": "Bundle", "value": "740 kB"}]}]}]}
+```
+
+## badges
+
+`{items*: [{label*, tone}]}`
+
+Short labels side by side: a state, a count, a category.
+`tone` is `neutral` (the default), `info`, `success`, `warning` or `danger`.
+A bare string is a label.
+
+```truetask-ui
+{"type": "badges", "items": [{"label": "Ready", "tone": "success"}, {"label": "2 blocked", "tone": "warning"}, {"label": "Backend"}]}
+```
+
+## card
+
+`{title*, description: md, blocks}`
+
+A titled group with a line of description, holding other blocks like a `section`.
+
+```truetask-ui
+{"type": "card", "title": "Release 1.3.106", "description": "What ships this week, and who carries it.", "blocks": [{"type": "text", "text": "Three tasks are in review."}, {"type": "separator"}, {"type": "empty", "title": "No overdue tasks", "text": "Nothing is late this week."}]}
+```
+
+`separator` (`{}`) draws a thin rule between blocks.
+`empty` (`{title, text: md}`, one of them) says plainly that there is nothing to show.
+
+## people
+
+`{items*: [{user*, name, meta}]}`
+
+People in the workspace, with their pictures.
+`user` is the person's id: the app draws their own name and picture, and `name` shows only for someone the reader cannot see.
+`meta` is a short role or note.
+
+```truetask-ui
+{"type": "people", "items": [{"user": "k3m9x2p7q1w5r8t", "name": "Ada Lovelace", "meta": "Owner"}]}
+```
+
+## tasks
+
+`{items*: [{task*, note}]}`
+
+Tasks as rows that open the task.
+`task` is the task's key (`DEVE-42`) or id, and nothing else: the app draws the live title and state, so never write a title here.
+A task the reader cannot see draws as a quiet unavailable row.
+
+```truetask-ui
+{"type": "tasks", "items": [{"task": "DEVE-42", "note": "Lands once the review is in."}]}
+```
+
+## code
+
+`{text*, language}`
+
+A command, a log excerpt or a reply body, kept line by line, with a copy button.
+`language` is a short name such as `bash` or `json`.
+
+```truetask-ui
+{"type": "code", "language": "bash", "text": "scripts/worktree-stack.sh up"}
+```
+
+## image
+
+`{file*, alt}`
+
+A picture from a file in the workspace, by the file's id.
+Nothing else loads: no outside address, no data URL.
+
+```truetask-ui
+{"type": "image", "file": "f7h2j9k4m1n6p3q", "alt": "The board after the move"}
 ```
 
 ## actions

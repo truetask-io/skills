@@ -90,6 +90,7 @@ Completion is the one thing an agent hands to a person by convention, so never c
 - Verify every definition-of-done criterion first, then answer them one by one in `metadata.verification`: `{"criterion": <number or text>, "verdict": "verified" | "not_verified" | "inconclusive", "evidence": "<one line>", "link": "<optional>"}`.
 - A criterion you leave out reads as unanswered to the reviewer. Report `inconclusive` where you could not tell, rather than claiming a check you did not run.
 - The summary is a decision-ready brief: what changed, how each criterion was verified, links to the artifacts. It takes at most 2,000 characters and a longer one is refused.
+- Open it with two or three sentences on what landed and what a reviewer must know. Folded, the review card shows that first paragraph and nothing else; Show more opens the criteria and the rest of the report.
 - The server cross-checks the proposal against real state (open steps, unticked checklist items, an unmerged linked pull request, unanswered criteria) and shows each gap to the reviewer under `server_check`. Close what you can close without guessing before you propose.
 - It adds what it can see itself under `facts`: the linked pull request with its CI and review state, the checklist tally, your run's steps. Do not restate those in the summary.
 - Read the response before you say where the task stands. On a pipeline node set not to wait for review, a clean proposal is approved and completed by that same call, and the response says so under `auto_approved`.
