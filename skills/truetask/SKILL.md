@@ -52,6 +52,7 @@ Pick the shape by the job, not by habit:
 - A value over time: a `chart`, line for a trend and bar for counts per period. Never stats tiles for a series.
 - Rows that share the same fields: a `table`.
 - Things that each have a state (tasks, checks, findings): a `list`, each item with a `status`.
+- Files you changed in a git repository: a `files` block in the report, each path relative to the repository's root. In a task's chat the person opens a row to read that file's diff, so asked to show the changes or the diff, answer with this block, never the diff pasted as text.
 - What happened, in order: `steps`.
 - The one thing the reader must not miss: a `callout`.
 - Facts as label and value: `properties`.
