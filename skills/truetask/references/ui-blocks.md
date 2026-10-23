@@ -269,6 +269,7 @@ A task the reader cannot see draws as a quiet unavailable row.
 `{text*, language}`
 
 A command, a log excerpt or a reply body, kept line by line, with a copy button.
+Whenever you ask the person to copy or paste something, this is where it goes: one block per thing to paste, never the text inline in a sentence.
 `language` is a short name such as `bash` or `json`.
 
 ```truetask-ui

@@ -55,6 +55,7 @@ Pick the shape by the job, not by habit:
 - What happened, in order: `steps`.
 - The one thing the reader must not miss: a `callout`.
 - Facts as label and value: `properties`.
+- Anything the person has to copy or paste (a command, a config line, a reply to send): a `code` block, which carries a copy button. Never leave it inline in a sentence.
 - The next moves you suggest: `actions`, at most 4, at most one `primary`.
 
 Four rules decide whether a block draws at all:
