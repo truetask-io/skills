@@ -105,6 +105,7 @@ An item can be a bare string when it carries nothing but a title.
 
 The files you touched, with line counts.
 Use it in a report instead of pasting a diff.
+Write each path relative to the repository's root: in a task's chat, the person opens a row to read that file's diff, which Truetask reads from git on the computer you work on.
 
 ```truetask-ui
 {"type": "files", "items": [{"path": "svelte/src/lib/components/agent-ui/spec.js", "change": "modified", "added": 18, "removed": 2, "note": "chart series cap"}, {"path": "svelte/src/lib/components/agent-ui/spec.spec.js", "change": "modified", "added": 24}, {"path": "docs/old-ui-notes.md", "change": "deleted", "removed": 61}]}
