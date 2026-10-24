@@ -267,14 +267,52 @@ A task the reader cannot see draws as a quiet unavailable row.
 
 ## code
 
-`{text*, language}`
+`{text*, language, title, numbered, start, highlight, tone}`
 
-A command, a log excerpt or a reply body, kept line by line, with a copy button.
+A command, a log excerpt, a diff or a reply body, kept line by line, with a copy button.
 Whenever you ask the person to copy or paste something, this is where it goes: one block per thing to paste, never the text inline in a sentence.
-`language` is a short name such as `bash` or `json`.
+`language` is a short name such as `bash`, `json`, `ts` or `python`, and the app colours the code for it.
+`diff` colours each line that starts with `+` or `-` as added or removed.
+`title` names what the code is: the file it comes from, or `Terminal` for output.
+`numbered: true` numbers the lines, and `start` numbers them from that line, for an excerpt from the middle of a file.
+`highlight` lists the line numbers to call out, counted the way the block numbers them.
+`tone: "danger"` draws an error or the output of a run that failed.
 
 ```truetask-ui
 {"type": "code", "language": "bash", "text": "scripts/worktree-stack.sh up"}
+```
+
+```truetask-ui
+{"type": "code", "title": "svelte/src/lib/js/api.js", "language": "js", "start": 41, "highlight": [42], "text": "const res = await fetch(url, opts);\nif (res.status === 503) return retry();"}
+```
+
+```truetask-ui
+{"type": "code", "title": "pnpm run lint", "tone": "danger", "text": "src/app.js\n  12:5  error  'x' is defined but never used  no-unused-vars"}
+```
+
+## sources
+
+`{title, items*: [{url*, title}]}`
+
+The web pages an answer used, as one line that counts them and opens on a link per page.
+`url` is an `http` or `https` address; `title` is the page's own title, and the row shows its host without one.
+Use it after research, so the person can check what the answer stands on.
+
+```truetask-ui
+{"type": "sources", "items": [{"title": "Dependency Pre-Bundling", "url": "https://vite.dev/guide/dep-pre-bundling"}, {"url": "https://pnpm.io/cli/store"}]}
+```
+
+## tests
+
+`{title, duration, items*: [{name*, tests: [{name*, status*, error}], passed, failed, skipped, duration}]}`
+
+A test run, one item per suite or test file, counted as passed, failed and skipped.
+`status` is `passed`, `failed` or `skipped`; a failed test carries its `error`, the assertion or the stack as the run printed it.
+List the tests of a suite that failed, and give a clean suite as its counts alone.
+What failed opens by itself, so the person lands on it.
+
+```truetask-ui
+{"type": "tests", "title": "Unit tests", "duration": "4.2s", "items": [{"name": "cache.spec.js", "tests": [{"name": "keys the lockfile", "status": "passed"}, {"name": "keys the config", "status": "failed", "error": "Expected: 2\nReceived: 3"}]}, {"name": "api.spec.js", "passed": 18}]}
 ```
 
 ## image
