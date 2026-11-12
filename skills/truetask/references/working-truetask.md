@@ -44,6 +44,20 @@ What you may do is decided by your token and your board role, not by the length 
 - Filters take `=`, `!=`, `>`, `>=`, `<`, `<=`, `~` (contains) and `!~` (does not contain).
 - Never paste a raw tool result into a comment. The person wants the finding.
 
+## Reading a database as rows
+
+A board of kind `database` is a table, and the plain tools show one as cards plus separate field values plus separate links, so reading a row means joining three results.
+Use the `db_*` tools instead and a row comes back as one flat object keyed by column name.
+
+- `db_schema(database_id)` is the columns, with each one's type, its options and whether it can be written, filtered or sorted.
+- `db_records_list(database_id, filter=..., sort=..., per_page=...)` is a page of rows, `db_records_get` is one by id, and `db_records_create`, `db_records_update` and `db_records_delete` write them.
+- The filter is the same grammar over the database's own columns: `Status = "Active" && Amount > 10`, with a name that is not a plain word in backticks.
+- A rollup or a formula is computed when a row is read, so it comes back only when `fields` names it and the page is capped at 100.
+
+A task session lists none of these, since most tasks are not about a table: reach them with `tools_find("database records")` and `tools_call`.
+
+`docs/database-api.md` in the Truetask repository is the whole of it, for the HTTP routes behind these tools and for the JavaScript and Python clients a site uses.
+
 ## Work inside the run
 
 `agent_runs_start(card_id)` starts or resumes the structured run, and a kickoff names the exact call to make first.
