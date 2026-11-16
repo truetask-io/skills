@@ -68,6 +68,7 @@ The run is your progress report: the task's status line follows the step you are
 - Never end a session with a step left `active`. Close it done, skipped, blocked or failed with a result, so nobody reads a step that looks stuck.
 - A step you cannot finish is `failed` with a concrete blocker, plus a `failure_kind` when you know it: `blocked`, `tool_error`, `timeout` or `unreachable`. The response's `failure_policy` says whether to carry on, redo an earlier step or stop. Follow it, and never orchestrate your own retries.
 - A run with no step update, run log or heartbeat for 30 minutes or more is flagged as stalled and its people are notified. On a long step, leave a sign of life every 20 minutes or so with `agent_run_log` or `cards_heartbeat(card_id, status="<step> - <action>")`.
+- Alive is not the same as visible. A heartbeat, a ticked item or a command line in the log shows nobody your work. When a run at work has put nothing in front of a person for over an hour (no comment, file, question, proposal, work notes or step result), the task reads "Nothing shown for ..." to its people and your step, log and heartbeat responses carry `show_progress`. Show where the work stands before you go on.
 - Tick checklist items as the work passes them, not in one burst at the end. That count is what people watch while you work.
 
 ## Ask on the frontier, once
